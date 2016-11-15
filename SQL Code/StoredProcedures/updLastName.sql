@@ -1,0 +1,38 @@
+USE [CDDPhone]
+GO
+
+/****** Object:  StoredProcedure [dbo].[updLastName]    Script Date: 5/8/2016 2:35:24 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+CREATE PROCEDURE [dbo].[updLastName]
+	
+	@lastName VARCHAR(64),
+	@netID char(10)
+
+AS
+
+BEGIN TRANSACTION
+
+UPDATE people SET lastName = @lastName WHERE NetID = @netID
+
+IF (@@ERROR <> 0)
+  BEGIN
+	PRINT 'ERROR OCCURRED WHILE ATTEMPTING TO UPDATE DATA IN people'
+	ROLLBACK TRANSACTION
+	RETURN -10001
+  END
+
+COMMIT TRANSACTION
+
+RETURN
+
+
+GO
+
+
